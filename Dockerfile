@@ -31,6 +31,9 @@ COPY --from=builder /app/dist ./dist
 COPY server ./server
 COPY shared ./shared
 
+# Create certificates directory and copy SSL certificates
+COPY certificates ./certificates
+
 # Expose port
 EXPOSE 5000
 
