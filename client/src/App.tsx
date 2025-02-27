@@ -11,6 +11,12 @@ import Signup from "@/pages/Signup";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+// Import service pages
+import CloudMigration from "@/pages/services/CloudMigration";
+import CloudSecurity from "@/pages/services/CloudSecurity";
+import CloudOptimization from "@/pages/services/CloudOptimization";
+import ManagedServices from "@/pages/services/ManagedServices";
+
 function Router() {
   return (
     <>
@@ -18,6 +24,10 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/services" component={Services} />
+        <Route path="/services/cloud-migration" component={CloudMigration} />
+        <Route path="/services/cloud-security" component={CloudSecurity} />
+        <Route path="/services/cloud-optimization" component={CloudOptimization} />
+        <Route path="/services/managed-services" component={ManagedServices} />
         <Route path="/contact" component={Contact} />
         <Route path="/about" component={About} />
         <Route path="/signup" component={Signup} />
