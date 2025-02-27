@@ -10,9 +10,6 @@ server/public
 .env.*.local
 
 # Build files
-*.log
-build/
-dist/
 vite.config.ts.*
 *.tar.gz
 
