@@ -19,32 +19,14 @@ A modern cloud consulting website built with React, Express, and PostgreSQL.
 - State Management: TanStack Query
 - Form Handling: React Hook Form with Zod validation
 
-## Development Setup
+## Security Notice
 
-The project includes development-safe database credentials in .env that work out of the box:
+This project uses environment variables for sensitive data. Never commit the `.env` file to version control.
+Instead:
 
-```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tyledeclouds
-PGUSER=postgres
-PGPASSWORD=postgres
-```
-
-These credentials are safe for local development. For production deployment:
-
-1. Use different, secure credentials
-2. Set up environment variables in your deployment platform
-3. Never share production credentials
-
-## Production Deployment
-
-When deploying to production:
-
-1. Create a new PostgreSQL database with secure credentials
-2. Set environment variables in your deployment platform:
-   - Use secure, unique passwords
-   - Use proper host configurations
-   - Enable SSL if available
-3. Keep production credentials secure and separate from development
+1. Copy `.env.example` to `.env`
+2. Update `.env` with your actual credentials
+3. Keep `.env` local and never commit it
 
 ## Installation
 
@@ -59,12 +41,18 @@ cd tyledeclouds-consulting
 npm install
 ```
 
-3. Push the database schema:
+3. Set up your environment:
+```bash
+cp .env.example .env
+# Edit .env with your credentials
+```
+
+4. Push the database schema:
 ```bash
 npm run db:push
 ```
 
-4. Start the development server:
+5. Start the development server:
 ```bash
 npm run dev
 ```

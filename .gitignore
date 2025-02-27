@@ -4,12 +4,15 @@ dist
 .DS_Store
 server/public
 
-# Environment
+# Environment variables - never commit these!
 .env
 .env.local
 .env.*.local
 
 # Build files
+*.log
+build/
+dist/
 vite.config.ts.*
 *.tar.gz
 
