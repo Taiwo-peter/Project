@@ -64,35 +64,43 @@ app.use((req, res, next) => {
     const port = 5000;
 
     try {
-      // Create HTTPS server with SSL certificates
-      const httpsServer = https.createServer(sslConfig, app);
-
-      httpsServer.listen({
-        port,
-        host: "0.0.0.0",
-        reusePort: true,
-      }, () => {
-        log(`serving on port ${port} (HTTPS)`);
-      });
-
-      // Handle server errors
-      httpsServer.on('error', (error) => {
-        log(`HTTPS Server Error: ${error.message}`);
-        process.exit(1);
-      });
-
-    } catch (error) {
-      log(`Failed to start HTTPS server: ${error instanceof Error ? error.message : String(error)}`);
-      log('Attempting to start HTTP server as fallback...');
-
-      // Fallback to HTTP server
+      // Start HTTP server first
       server.listen({
         port,
         host: "0.0.0.0",
         reusePort: true,
       }, () => {
         log(`serving on port ${port} (HTTP)`);
+
+        // Only attempt HTTPS after HTTP is confirmed working
+        try {
+          const httpsServer = https.createServer(sslConfig, app);
+          httpsServer.listen({
+            port: port + 1,  // Use a different port for HTTPS
+            host: "0.0.0.0",
+            reusePort: true,
+          }, () => {
+            log(`serving on port ${port + 1} (HTTPS)`);
+          });
+
+          httpsServer.on('error', (error) => {
+            log(`HTTPS Server Error: ${error.message}`);
+          });
+        } catch (error) {
+          log(`Failed to start HTTPS server: ${error instanceof Error ? error.message : String(error)}`);
+          log('Continuing with HTTP only');
+        }
       });
+
+      // Handle HTTP server errors
+      server.on('error', (error) => {
+        log(`HTTP Server Error: ${error.message}`);
+        process.exit(1);
+      });
+
+    } catch (error) {
+      log(`Failed to start HTTP server: ${error instanceof Error ? error.message : String(error)}`);
+      process.exit(1);
     }
   } catch (error) {
     log(`Application startup error: ${error instanceof Error ? error.message : String(error)}`);
