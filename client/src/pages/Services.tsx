@@ -1,6 +1,7 @@
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Cloud, Shield, Zap, Settings } from "lucide-react";
+import { Cloud, Shield, Zap, Settings, ArrowRight } from "lucide-react";
 
 export default function Services() {
   return (
@@ -15,7 +16,7 @@ export default function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service) => (
-            <Card key={service.title} className="overflow-hidden">
+            <Card key={service.title} className="overflow-hidden group">
               <CardHeader className="bg-primary/5">
                 <div className="flex items-center gap-4">
                   <service.icon className="h-8 w-8 text-primary" />
@@ -24,7 +25,7 @@ export default function Services() {
               </CardHeader>
               <CardContent className="p-6">
                 <p className="text-muted-foreground mb-4">{service.description}</p>
-                <ul className="space-y-2">
+                <ul className="space-y-2 mb-6">
                   {service.features.map((feature, index) => (
                     <li key={index} className="flex items-center gap-2">
                       <div className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -32,7 +33,11 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
-                <Button className="mt-6 w-full">Learn More</Button>
+                <Link href={service.link}>
+                  <Button className="w-full group-hover:bg-primary/90">
+                    Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
@@ -47,6 +52,7 @@ const services = [
     title: "Cloud Migration",
     description: "Seamlessly transition your infrastructure to the cloud with our expert guidance and support.",
     icon: Cloud,
+    link: "/services/cloud-migration",
     features: [
       "Assessment and planning",
       "Data migration",
@@ -58,6 +64,7 @@ const services = [
     title: "Cloud Security",
     description: "Protect your cloud infrastructure with industry-leading security practices.",
     icon: Shield,
+    link: "/services/cloud-security",
     features: [
       "Security assessment",
       "Compliance management",
@@ -69,6 +76,7 @@ const services = [
     title: "Cloud Optimization",
     description: "Maximize the efficiency and performance of your cloud infrastructure.",
     icon: Zap,
+    link: "/services/cloud-optimization",
     features: [
       "Cost optimization",
       "Performance tuning",
@@ -80,6 +88,7 @@ const services = [
     title: "Managed Services",
     description: "Let us handle the day-to-day management of your cloud infrastructure.",
     icon: Settings,
+    link: "/services/managed-services",
     features: [
       "Infrastructure management",
       "Backup and recovery",
