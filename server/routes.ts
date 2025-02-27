@@ -1,23 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import * as https from "https";
-import * as fs from "fs";
-import * as path from "path";
 import { storage } from "./storage";
 import { insertContactSchema, insertUserSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Add a test endpoint for HTTPS
-  app.get("/api/test-https", (req, res) => {
-    res.json({ 
-      secure: req.secure,
-      protocol: req.protocol,
-      headers: {
-        host: req.headers.host,
-        "x-forwarded-proto": req.headers["x-forwarded-proto"]
-      }
-    });
-  });
   app.post("/api/contact", async (req, res) => {
     try {
       const contactData = insertContactSchema.parse(req.body);
