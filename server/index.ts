@@ -1,7 +1,4 @@
 import express, { type Request, Response, NextFunction } from "express";
-import * as fs from "fs";
-import * as path from "path";
-import * as https from "https";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -62,28 +59,11 @@ app.use((req, res, next) => {
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client
   const port = 5000;
-  const httpsPort = 5443;
-  
   server.listen({
     port,
     host: "0.0.0.0",
     reusePort: true,
   }, () => {
-    log(`HTTP server listening on port ${port}`);
+    log(`serving on port ${port}`);
   });
-
-  try {
-    // Setup HTTPS server with certificates
-    const httpsOptions = {
-      key: fs.readFileSync(path.join(process.cwd(), 'certificates/key.pem')),
-      cert: fs.readFileSync(path.join(process.cwd(), 'certificates/cert.pem'))
-    };
-    
-    const httpsServer = https.createServer(httpsOptions, app);
-    httpsServer.listen(httpsPort, "0.0.0.0", () => {
-      log(`HTTPS server listening on port ${httpsPort}`);
-    });
-  } catch (error) {
-    log(`Error setting up HTTPS: ${error.message}`);
-  }
 })();
